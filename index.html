@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Finder — Just-in-Time Skill Workflow</title>
+  <meta name="description" content="Search, install, use, and auto-remove Claude Code skills on demand. Match. Map. Stats.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- CURSOR GLOW EFFECT -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- PARTICLE CANVAS -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <canvas id="particleCanvas" class="particle-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- CONFETTI CANVAS -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- NAVIGATION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">🔍</span>
+        <span class="logo-text">Skill Finder</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#pipeline" class="nav-link">How It Works</a>
+        <a href="#match" class="nav-link">Skill Match</a>
+        <a href="#map" class="nav-link">Skill Map</a>
+        <a href="#stats" class="nav-link">Stats</a>
+      </div>
+      <a href="#install" class="nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- HERO SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Now with Skill Match, Map & Stats</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-line">Find the right skill.</span>
+        <span class="title-line gradient-text">Use it. Remove it.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Search, install, use, and auto-remove Claude Code skills on demand.
+        <br>No permanent clutter. Just results.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#install" class="btn btn-primary">
+          <span>Install Now</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#match" class="btn btn-secondary">
+          Try Skill Match
+        </a>
+      </div>
+
+      <div class="hero-terminal">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span class="command">npx skills add sanyamk23/skill-finder -g -y</span>
+          </div>
+          <div class="terminal-line output">
+            <span class="output-text">✓ Installed globally — works in all your Claude Code sessions</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span class="command">Find a skill for presentations</span>
+          </div>
+          <div class="terminal-line output">
+            <span class="output-text">🔍 Found: presentation-creator (29K installs)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- FEATURES SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Features</span>
+        <h2 class="section-title">Everything you need.</h2>
+        <p class="section-subtitle">Nothing you don't.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Smart Search</h3>
+          <p class="feature-desc">Finds the best skill for your task ranked by installs, reputation, and relevance.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Skill Match</h3>
+          <p class="feature-desc">Tinder-style matching with compatibility scores. Swipe right on the perfect skill.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Skill Map</h3>
+          <p class="feature-desc">Visual knowledge graph showing how skills connect. Explore the constellation.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Stats Dashboard</h3>
+          <p class="feature-desc">Points, levels, achievements. Level up your skill-finding prowess.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Auto-Cleanup</h3>
+          <p class="feature-desc">Removes the skill when the task is done. No leftover clutter.</p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Just-in-Time</h3>
+          <p class="feature-desc">Skills are temporary tools, not permanent baggage. One command, infinite possibilities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- PIPELINE / HOW IT WORKS SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="pipeline" id="pipeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">How It Works</span>
+        <h2 class="section-title">Four steps. Zero clutter.</h2>
+        <p class="section-subtitle">The complete just-in-time workflow.</p>
+      </div>
+
+      <div class="pipeline-flow">
+        <div class="pipeline-line"></div>
+
+        <div class="pipeline-step fade-in" data-step="1">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3 class="step-title">Search</h3>
+            <p class="step-desc">Tell Claude what you need. It searches the skills.sh ecosystem for the best matches.</p>
+            <div class="step-code">
+              <code>npx skills find &lt;query&gt;</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipeline-step fade-in" data-step="2">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3 class="step-title">Install</h3>
+            <p class="step-desc">The best match is temporarily installed to your environment.</p>
+            <div class="step-code">
+              <code>npx skills add &lt;skill&gt; -y</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipeline-step fade-in" data-step="3">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3 class="step-title">Use</h3>
+            <p class="step-desc">Claude reads the skill's instructions and executes your task with expert guidance.</p>
+            <div class="step-code">
+              <code>Read SKILL.md → Execute task</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="pipeline-step fade-in" data-step="4">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3 class="step-title">Remove</h3>
+            <p class="step-desc">Once done, the skill is automatically removed. Your environment stays clean.</p>
+            <div class="step-code">
+              <code>npx skills remove &lt;skill&gt; -y</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- SKILL MATCH INTERACTIVE SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="match-section" id="match">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Skill Match</span>
+        <h2 class="section-title">Find your perfect match.</h2>
+        <p class="section-subtitle">Swipe right on the skill that speaks to you.</p>
+      </div>
+
+      <div class="match-container">
+        <div class="match-input-area">
+          <div class="match-input-group">
+            <input type="text" id="matchInput" class="match-input" placeholder="What do you need help with? (e.g., presentations, testing, react)">
+            <button class="match-btn" id="matchBtn" onclick="startMatch()">
+              <span>Find Match</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="match-cards-area" id="matchCards">
+          <!-- Cards will be dynamically inserted here -->
+          <div class="match-placeholder">
+            <div class="placeholder-icon">🎭</div>
+            <p>Enter a topic above to find your skill match!</p>
+          </div>
+        </div>
+
+        <div class="match-controls" id="matchControls" style="display: none;">
+          <button class="match-control-btn" onclick="swipeLeft()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            <span>Skip</span>
+          </button>
+          <button class="match-control-btn match-install" onclick="installMatch()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Install</span>
+          </button>
+          <button class="match-control-btn" onclick="swipeRight()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            <span>Like</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- SKILL MAP INTERACTIVE SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="map-section" id="map">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Skill Map</span>
+        <h2 class="section-title">Explore the constellation.</h2>
+        <p class="section-subtitle">Click on any skill to learn more about it.</p>
+      </div>
+
+      <div class="map-container">
+        <div class="map-controls">
+          <input type="text" id="mapInput" class="map-input" placeholder="Enter a skill topic (e.g., react, testing, design)">
+          <button class="map-btn" onclick="generateMap()">
+            <span>Generate Map</span>
+          </button>
+        </div>
+
+        <div class="skill-map" id="skillMap">
+          <svg id="mapSvg" class="map-svg" viewBox="0 0 800 500">
+            <!-- Map will be dynamically generated -->
+          </svg>
+        </div>
+
+        <div class="map-legend">
+          <div class="legend-item">
+            <span class="legend-dot legend-center"></span>
+            <span>Center Skill</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot legend-related"></span>
+            <span>Related Skills</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot legend-adjacent"></span>
+            <span>Adjacent Skills</span>
+          </div>
+        </div>
+
+        <div class="map-info-panel" id="mapInfoPanel">
+          <div class="info-placeholder">
+            <span class="info-icon">🗺️</span>
+            <p>Click on any node to see details</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- STATS / GAMIFICATION SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="stats" id="stats">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Level Up</span>
+        <h2 class="section-title">Track your progress.</h2>
+        <p class="section-subtitle">Every skill you find makes you stronger.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-value" data-target="12847">0</div>
+          <div class="stat-label">Skills Delivered</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-value" data-target="3291">0</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-card fade-in">
+          <div class="stat-value" data-target="94">0</div>
+          <div class="stat-suffix">%</div>
+          <div class="stat-label">Avg Match Rate</div>
+        </div>
+      </div>
+
+      <!-- Levels -->
+      <div class="levels-section fade-in">
+        <h3 class="levels-title">Levels</h3>
+        <div class="levels-track">
+          <div class="level-node" data-level="1">
+            <div class="level-icon">🌱</div>
+            <span class="level-name">Seedling</span>
+            <span class="level-range">0–99</span>
+          </div>
+          <div class="level-node" data-level="2">
+            <div class="level-icon">🔍</div>
+            <span class="level-name">Seeker</span>
+            <span class="level-range">100–299</span>
+          </div>
+          <div class="level-node active" data-level="3">
+            <div class="level-icon">⚡</div>
+            <span class="level-name">Hunter</span>
+            <span class="level-range">300–599</span>
+          </div>
+          <div class="level-node" data-level="4">
+            <div class="level-icon">🎯</div>
+            <span class="level-name">Master</span>
+            <span class="level-range">600–999</span>
+          </div>
+          <div class="level-node" data-level="5">
+            <div class="level-icon">🏆</div>
+            <span class="level-name">Ninja</span>
+            <span class="level-range">1000–1999</span>
+          </div>
+          <div class="level-node" data-level="6">
+            <div class="level-icon">👑</div>
+            <span class="level-name">Legend</span>
+            <span class="level-range">2000+</span>
+          </div>
+        </div>
+        <div class="levels-line">
+          <div class="levels-progress" style="width: 45%"></div>
+        </div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="achievements-section fade-in">
+        <h3 class="achievements-title">Achievements</h3>
+        <div class="achievements-grid">
+          <div class="achievement unlocked" data-achievement="first-find">
+            <div class="achievement-icon">🔍</div>
+            <span class="achievement-name">First Find</span>
+            <span class="achievement-desc">Found your first skill</span>
+          </div>
+          <div class="achievement unlocked" data-achievement="clean-freak">
+            <div class="achievement-icon">🧹</div>
+            <span class="achievement-name">Clean Freak</span>
+            <span class="achievement-desc">Removed 5 skills in one session</span>
+          </div>
+          <div class="achievement" data-achievement="perfect-match">
+            <div class="achievement-icon">🎯</div>
+            <span class="achievement-name">Perfect Match</span>
+            <span class="achievement-desc">90%+ compatibility</span>
+          </div>
+          <div class="achievement" data-achievement="collector">
+            <div class="achievement-icon">📚</div>
+            <span class="achievement-name">Collector</span>
+            <span class="achievement-desc">Used 10+ different skills</span>
+          </div>
+          <div class="achievement" data-achievement="speed-demon">
+            <div class="achievement-icon">⏱️</div>
+            <span class="achievement-name">Speed Demon</span>
+            <span class="achievement-desc">Found + used in under 60s</span>
+          </div>
+          <div class="achievement" data-achievement="night-owl">
+            <div class="achievement-icon">🌙</div>
+            <span class="achievement-name">Night Owl</span>
+            <span class="achievement-desc">Used skills past midnight</span>
+          </div>
+          <div class="achievement" data-achievement="streak">
+            <div class="achievement-icon">🔥</div>
+            <span class="achievement-name">Streak Master</span>
+            <span class="achievement-desc">3+ days of usage</span>
+          </div>
+          <div class="achievement" data-achievement="legendary">
+            <div class="achievement-icon">👑</div>
+            <span class="achievement-name">Legendary</span>
+            <span class="achievement-desc">Reached Level 6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- INSTALL SECTION -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <section class="install" id="install">
+    <div class="container">
+      <div class="install-card">
+        <div class="install-content">
+          <h2 class="install-title">Ready to start finding?</h2>
+          <p class="install-desc">Install Skill Finder globally and use it in all your Claude Code sessions.</p>
+
+          <div class="install-command">
+            <code id="installCommand">npx skills add sanyamk23/skill-finder -g -y</code>
+            <button class="copy-btn" id="copyBtn" onclick="copyCommand()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Copy</span>
+            </button>
+          </div>
+
+          <button class="install-btn" id="installBtn" onclick="celebrateInstall()">
+            <span>Install & Celebrate</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+            </svg>
+          </button>
+
+          <div class="install-options">
+            <div class="install-option">
+              <span class="option-check">✓</span>
+              <span>Works with Claude Code, Cursor, Copilot & more</span>
+            </div>
+            <div class="install-option">
+              <span class="option-check">✓</span>
+              <span>No permanent clutter — skills are temporary</span>
+            </div>
+            <div class="install-option">
+              <span class="option-check">✓</span>
+              <span>Open source — MIT License</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">🔍</span>
+          <span class="footer-name">Skill Finder</span>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/sanyamk23/skill-finder" target="_blank" class="footer-link">GitHub</a>
+          <a href="https://github.com/sanyamk23/skill-finder/issues" target="_blank" class="footer-link">Issues</a>
+          <a href="https://github.com/sanyamk23/skill-finder/discussions" target="_blank" class="footer-link">Discussions</a>
+          <a href="https://skills.sh" target="_blank" class="footer-link">Skills.sh</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Made with ❤️ by <a href="https://github.com/sanyamk23" target="_blank">sanyamk23</a></span>
+        <span>© 2026 Skill Finder. MIT License.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- SCRIPTS -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <script src="script.js"></script>
+</body>
+</html>
